@@ -63,7 +63,8 @@ const Verification:FC<Props> = ({setRoute}) => {
     <br />
     <div className="m-auto flex items-center justify-around">
         {Object.keys(verifyNumber).map((key,index) => (
-          <input type="text"
+          <input
+          type="number"
           key={key}
           ref={inputRefs[index]}
           className = {`w-[65px] h-[65px] bg-transparent border-[3px] rounded-[18px] flex items-center text-black dark:text-white justify-center text-[18px] font-Poppins ouline-none text-center ${
