@@ -49,7 +49,7 @@ const SignUp: FC<Props> = ({setRoute}) => {
         onSubmit: async ({name, email, password}) => {
             const data = {
                 name, email, password
-            }
+            };
             await register(data);
         }
         });

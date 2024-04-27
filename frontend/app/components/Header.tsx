@@ -1,13 +1,17 @@
-'use client'
-import Link from 'next/link'
-import React, { FC, useState } from 'react'
-import NavItems from "../utils/NavItems"
-import { ThemeSwitcher } from "../utils/ThemeSwitcher"
+'use client';
+import Link from 'next/link';
+import React, { FC, useState } from 'react';
+import NavItems from "../utils/NavItems";
+import { ThemeSwitcher } from "../utils/ThemeSwitcher";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from 'react-icons/hi';
 import CustomModal from "../utils/CustomModal";
 import Login from "../components/Auth/Login";
 import SignUp from "../components/Auth/SignUp";
-import Verification from "../components/Auth/Verification"
+import Verification from "../components/Auth/Verification";
+import { useSelector } from 'react-redux';
+import Image from 'next/image';
+import avatar from "../../public/assets/avatar.jpg";
+
 type Props={
     open: boolean,
     setOpen: (open: boolean) => void,
@@ -19,7 +23,7 @@ type Props={
 const Header: FC<Props>=({activeItem, setOpen, route, setRoute, open}) => {
     const [ active, setActive ] = useState(false);
     const [ openSidebar, setOpenSidebar] = useState(false);
-
+    const {user} = useSelector((state:any) => state.auth);
     if (typeof window !== "undefined") {
         window.addEventListener("scroll", () => {
             if (window.scrollY>85) {
@@ -37,6 +41,7 @@ const Header: FC<Props>=({activeItem, setOpen, route, setRoute, open}) => {
           }        
         }
       };
+      console.log(user);
 
   return (
       <div  className='w-full relative'>
@@ -61,18 +66,30 @@ const Header: FC<Props>=({activeItem, setOpen, route, setRoute, open}) => {
                 <NavItems activeItem={activeItem} isMobile={false} />
             <ThemeSwitcher />
             {/* only for mobile */}
-            <div className="">
+            <div className="800px:hidden">
               <HiOutlineMenuAlt3
                 size={25}
-                className = "800px:block  cursor-pointer dark:text-white text-black"
+                className = "cursor-pointer dark:text-white text-black"
                 onClick={() => setOpenSidebar(true)}
               />
             </div>
-            <HiOutlineUserCircle
-                size={25}
-                className = "cursor-pointer dark:text-white text-black"
-                onClick={() => setOpen(true)}
-              />
+              {
+                user ? (
+                  <Link href={"/profile"}>
+                  <Image
+                  src={ user.avatar ? user.avatar : avatar }
+                  alt=""
+                  className='w-[30] h-[30] rounded-full'
+                  />
+                  </Link>
+                ):(
+                  <HiOutlineUserCircle
+                  size={25}
+                  className = "800px:block cursor-pointer dark:text-white text-black"
+                  onClick={() => setOpen(true)}
+                />
+                )
+              }
             </div>
             </div>
             </div>
@@ -88,7 +105,7 @@ const Header: FC<Props>=({activeItem, setOpen, route, setRoute, open}) => {
                             <NavItems activeItem={activeItem} isMobile={true} />
                             <HiOutlineUserCircle
                                  size={25}
-                                className = "cursor-pointer dark:text-white text-black"
+                                className = " cursor-pointer ml-5 my-2 dark:text-white text-black"
                                 onClick={() => setOpen(true)}
                             />
                             <br />
