@@ -11,6 +11,7 @@ import Verification from "../components/Auth/Verification";
 import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import avatar from "../../public/assets/avatar.jpg";
+import { useSession } from 'next-auth/react';
 
 type Props={
     open: boolean,
@@ -24,6 +25,10 @@ const Header: FC<Props>=({activeItem, setOpen, route, setRoute, open}) => {
     const [ active, setActive ] = useState(false);
     const [ openSidebar, setOpenSidebar] = useState(false);
     const {user} = useSelector((state:any) => state.auth);
+    const {data} = useSession();
+
+    console.log(data);
+
     if (typeof window !== "undefined") {
         window.addEventListener("scroll", () => {
             if (window.scrollY>85) {
